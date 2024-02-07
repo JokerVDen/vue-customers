@@ -1,19 +1,36 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
     <div class="container">
-      <a class="navbar-brand" href="#">My Vue App</a>
+      <router-link to="/" class="navbar-brand">My Vue App</router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
               aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarToggler">
-        <form class="d-flex text-lg-end" style="width: 100%" role="search">
-          <div class="col"></div>
-          <div class="col-md-auto">
-            <button class="btn btn-outline-success" type="button" v-if="!isLoggedIn" @click="toLoginPage">Login</button>
-            <button class="btn btn-outline-success" type="button" v-else @click="logout">Logout</button>
-          </div>
-        </form>
+        <ul class="navbar-nav ms-auto">
+          <template v-if="!isLoggedIn">
+            <li>
+              <router-link to="/login" class="nav-link">Login</router-link>
+            </li>
+            <li>
+              <router-link to="/register" class="nav-link">Register</router-link>
+            </li>
+          </template>
+          <template v-else>
+            <li>
+              <router-link to="/customers" class="nav-link">Customers</router-link>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="btn dropdown-toggle" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ currentUser.name}} <span class="caret"></span>
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="#" @click.prevent="logout" class="dropdown-item">Logout</a></li>
+              </ul>
+            </li>
+          </template>
+        </ul>
       </div>
     </div>
   </nav>
@@ -25,16 +42,13 @@ import {mapGetters} from "vuex";
 export default {
   name: 'header-app',
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn', 'currentUser']),
   },
   methods: {
     logout() {
       this.$store.dispatch('logout');
       this.$router.push('/login');
     },
-    toLoginPage() {
-      this.$router.push('/login');
-    }
   }
 }
 </script>

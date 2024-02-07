@@ -7,10 +7,7 @@ import {routes} from "./routes";
 import MainApp from "./components/MainApp.vue";
 import 'bootstrap';
 import '@popperjs/core';
-import Head from "./components/Header.vue";
-
-const app = createApp({})
-app.config.devtools = true;
+import {initialize} from "./helpers/general.js";
 
 const store = createStore(storeData);
 
@@ -19,23 +16,13 @@ const router = createRouter({
     history: createWebHistory(),
 })
 
-router.beforeEach((to, from, next) => {
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const currentUser = store.state.currentUser;
+initialize(store, router);
 
-    if (requiresAuth && !currentUser) {
-        next('/login');
-    } else if (to.path === '/login' && currentUser) {
-        next('/');
-    } else {
-        next();
-    }
-})
+const app = createApp({config: {devtools: true}});
 
 app.use(router)
 app.use(store)
 
 app.component('main-app', MainApp)
-app.component('header-app', Head)
 
 app.mount('#app')
