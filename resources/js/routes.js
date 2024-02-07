@@ -2,6 +2,8 @@ import Home from "./components/Home.vue";
 import Login from "./components/auth/Login.vue";
 import CustomerMain from "./components/customer/Main.vue";
 import CustomerList from "./components/customer/List.vue";
+import NewCustomer from "./components/customer/New.vue";
+import Customer from "./components/customer/View.vue";
 
 export const routes = [
     {
@@ -25,6 +27,14 @@ export const routes = [
             {
                 path: '',
                 component: CustomerList,
+            },
+            {
+                path: 'new',
+                component: NewCustomer,
+            },
+            {
+                path: ':id',
+                component: Customer,
             },
         ]
     }
