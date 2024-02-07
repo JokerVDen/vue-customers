@@ -10,7 +10,8 @@
         <form class="d-flex text-lg-end" style="width: 100%" role="search">
           <div class="col"></div>
           <div class="col-md-auto">
-            <button class="btn btn-outline-success" type="button">Login</button>
+            <button class="btn btn-outline-success" type="button" v-if="!isLoggedIn" @click="toLoginPage">Login</button>
+            <button class="btn btn-outline-success" type="button" v-else @click="logout">Logout</button>
           </div>
         </form>
       </div>
@@ -19,7 +20,21 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: 'header-app',
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/login');
+    },
+    toLoginPage() {
+      this.$router.push('/login');
+    }
+  }
 }
 </script>
