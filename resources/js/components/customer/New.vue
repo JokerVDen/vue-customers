@@ -75,14 +75,8 @@ export default {
         return;
       }
 
-      debugger;
-
-      axios.post('/api/customers/', this.$data.customer, {
-        headers: {
-          'authorization': `Bearer ${this.currentUser.token}`,
-          'accept': 'application/json',
-        }
-      }).then(() => {
+      axios.post('/api/customers/', this.$data.customer).then((res) => {
+        this.$store.commit('addCustomer', res.data.customer);
         this.$router.push('/customers');
       });
     },

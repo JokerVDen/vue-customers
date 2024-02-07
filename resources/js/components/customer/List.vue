@@ -40,7 +40,9 @@ import {mapGetters} from "vuex";
 export default {
   name: 'list',
   mounted() {
-    this.$store.dispatch('getCustomers');
+    if (!this.customers.length) {
+      this.$store.dispatch('getCustomers');
+    }
   },
   computed: {
     ...mapGetters(['customers']),

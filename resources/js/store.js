@@ -51,6 +51,9 @@ export default {
         },
         setCustomers(state, customers) {
             state.customers = customers
+        },
+        addCustomer(state, customer) {
+            state.customers.push(customer);
         }
     },
     actions: {
@@ -61,12 +64,7 @@ export default {
             context.commit('logout')
         },
         getCustomers(context) {
-            axios.get('/api/customers', {
-                headers: {
-                    'authorization': `Bearer ${context.state.currentUser.token}`,
-                    'accept': 'application/json',
-                }
-            }).then(res => {
+            axios.get('/api/customers').then(res => {
                 context.commit('setCustomers', res.data.customers)
             }).catch(err => {
                 console.log(err)
