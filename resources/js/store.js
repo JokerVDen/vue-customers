@@ -48,6 +48,9 @@ export default {
             localStorage.removeItem('user');
             state.isLoggedIn = false;
             state.currentUser = null;
+        },
+        setCustomers(state, customers) {
+            state.customers = customers
         }
     },
     actions: {
@@ -57,5 +60,17 @@ export default {
         logout(context) {
             context.commit('logout')
         },
+        getCustomers(context) {
+            axios.get('/api/customers', {
+                headers: {
+                    'authorization': `Bearer ${context.state.currentUser.token}`,
+                    'accept': 'application/json',
+                }
+            }).then(res => {
+                context.commit('setCustomers', res.data.customers)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     },
 }
