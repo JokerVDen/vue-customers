@@ -23,6 +23,20 @@ services:
             - sail
         depends_on:
             - mysql
+    rabbitmq:
+        image: rabbitmq:3.13-rc-management
+        hostname: 'rabbit'
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER:-user}'
+            RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASS:-password}'
+        volumes:
+            - ./storage/rabbitmq/data/:/var/lib/rabbitmq/
+            - ./storage/rabbitmq/log/:/var/log/rabbitmq/
+        networks:
+            - sail
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
